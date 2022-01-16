@@ -1,0 +1,10 @@
+throughput:
+  5
+default:
+  locale:
+
+spring:
+  messages:
+    basename:
+      i18n/messages
+
