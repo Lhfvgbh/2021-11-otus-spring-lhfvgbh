@@ -1,10 +1,7 @@
 package ru.otus.springboothomework3.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.springboothomework3.models.Question;
@@ -14,14 +11,14 @@ import ru.otus.springboothomework3.models.Student;
 
 @SpringBootTest
 @Slf4j
-class ResultServiceImplTest {
+class ResultServiceTest {
 
     @Autowired
-    ResultService resultService;
-    static Question question;
+    private ResultService resultService;
+    private Question question;
 
-    @BeforeAll
-    static void setUp() {
+    @BeforeEach
+    void setUp() {
         question = new Question("Is it test?", "Y");
     }
 

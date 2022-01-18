@@ -4,7 +4,9 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.otus.springboothomework3.exceptions.QuizException;
 import ru.otus.springboothomework3.models.Question;
 import ru.otus.springboothomework3.models.Quiz;
 
@@ -17,26 +19,27 @@ import java.util.List;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-    private String filename;
-    List<Question> questions;
+    private final String filename;
 
     @Autowired
-    public QuestionServiceImpl(MessageService messageService) {
-        this.filename = messageService.getQuestionFile();
+    public QuestionServiceImpl(LanguageService languageService,
+                               @Value("${filename.template}") String filenameTemplate) {
+        this.filename = filenameTemplate.replace("*", languageService.getFileLanguage());
     }
 
-    public Quiz readQuestions() {
-        questions = new ArrayList<>();
+    public Quiz getQuizQuestions() throws QuizException {
+        List<Question> questions = new ArrayList<>();
         try {
             try (CSVReader reader = new CSVReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename)))) {
                 String[] line;
                 while ((line = reader.readNext()) != null) {
-                    questions.add(new Question(line[0], line[1]));
+                    if (line.length == 2) {
+                        questions.add(new Question(line[0], line[1]));
+                    }
                 }
             }
-        } catch (IOException |
-                CsvValidationException ex) {
-            log.error(String.format("File %s cannot be read!", filename));
+        } catch (IOException | CsvValidationException ex) {
+            throw new QuizException(String.format("File %s cannot be read!", filename));
         }
         return new Quiz(questions, questions.size());
     }

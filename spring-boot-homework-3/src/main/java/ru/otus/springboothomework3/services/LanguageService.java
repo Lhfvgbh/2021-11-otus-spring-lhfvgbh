@@ -1,46 +1,51 @@
 package ru.otus.springboothomework3.services;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-import java.util.Scanner;
 
-//@Service
+@Service
 @Slf4j
 public class LanguageService {
 
-    //todo:in message service
-    /*private MessageService(@Autowired MessageSource msg) {
-        this.locale = LanguageService.getLocale();
-        this.msg = msg;
-    }*/
+    private final MessageService messageService;
 
-    @Getter
-    private static Locale locale;
-    private static String language;
-
-    public LanguageService() {
-        setLocale(language);
+    public LanguageService(@Autowired MessageService messageService) {
+        this.messageService = messageService;
     }
 
-    public void setLocale(String language) {
-        if (language.equalsIgnoreCase("ru")) {
-            locale = Locale.forLanguageTag("ru-RU");
-            log.info("Выбранная локаль: ru");
-        } else {
-            locale = Locale.forLanguageTag("");
-            log.info("Default locale: en");
-        }
-        LocaleContextHolder.setLocale(locale);
+    public String getQuestionFile() {
+        return messageService.getMessage("file.questions");
     }
 
-    public static void readLocale() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Please chose the language of the quiz (en or ru)\nПожалуйста, выберите язык тестирования (en or ru)");
-        language = scanner.nextLine();
+    public String getFileLanguage() {
+        return messageService.getMessage("file.questions.locale");
     }
+
+    public String getWelcomeMessage() {
+        return messageService.getMessage("message.welcome");
+    }
+
+    public String getFirstName() {
+        return messageService.getMessage("message.firstname");
+    }
+
+    public String getLastName() {
+        return messageService.getMessage("message.lastname");
+    }
+
+    public String getStartMessage() {
+        return messageService.getMessage("message.start");
+    }
+
+    public String getResult() {
+        return messageService.getMessage("message.result");
+    }
+
+    public String getScore() {
+        return messageService.getMessage("message.score");
+    }
+
 
 }

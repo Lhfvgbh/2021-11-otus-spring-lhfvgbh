@@ -3,6 +3,9 @@ throughput:
 default:
   locale:
 
+filename:
+  template:
+    questions*.csv
 spring:
   messages:
     basename:

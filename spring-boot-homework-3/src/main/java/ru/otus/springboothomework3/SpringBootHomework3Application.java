@@ -8,7 +8,7 @@ import ru.otus.springboothomework3.services.QuizService;
 @SpringBootApplication
 public class SpringBootHomework3Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
 
         ApplicationContext ctx = SpringApplication.run(SpringBootHomework3Application.class, args);
 

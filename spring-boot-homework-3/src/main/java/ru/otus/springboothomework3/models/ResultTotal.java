@@ -9,6 +9,7 @@ public class ResultTotal {
     private int score;
     private Student student;
     private Status status;
+    private int questionCounter;
 
     @AllArgsConstructor
     @Getter

@@ -11,7 +11,7 @@ import ru.otus.springboothomework3.models.Quiz;
 class QuestionServiceTest {
 
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     private static final int INPUT_FILE_SIZE = 10;
 
@@ -27,8 +27,8 @@ class QuestionServiceTest {
 
     @Test
     @DisplayName("Get the size of the question file")
-    void readQuestionsSizeTest() {
-        Quiz testQuiz = questionService.readQuestions();
+    void readQuestionsSizeTest() throws Exception{
+        Quiz testQuiz = questionService.getQuizQuestions();
         Assertions.assertEquals(INPUT_FILE_SIZE, testQuiz.getNumberOfQuestions());
         log.info("Success");
     }

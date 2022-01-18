@@ -11,16 +11,16 @@ import java.util.Locale;
 @SpringBootTest
 @Slf4j
 @TestPropertySource(properties = {"default.locale="})
-class MessageServiceDefaultLocaleTest {
+class LanguageServiceDefaultLocaleTest {
     @Autowired
-    MessageService messageService;
+    private LanguageService languageService;
 
     @Test
     @DisplayName("Get correct file according to default locale")
     void getQuestionFileEnTest() {
 
         String filename = "questions.csv";
-        Assertions.assertEquals(filename, messageService.getQuestionFile());
+        Assertions.assertEquals(filename, languageService.getQuestionFile());
         log.info("Success for the locale " + Locale.getDefault());
     }
 }
