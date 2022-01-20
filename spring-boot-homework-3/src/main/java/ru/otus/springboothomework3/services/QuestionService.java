@@ -6,5 +6,5 @@ import ru.otus.springboothomework3.models.Quiz;
 
 @Service
 public interface QuestionService {
-    Quiz getQuizQuestions() throws Exception;
+    Quiz buildQuiz() throws QuizException;
 }

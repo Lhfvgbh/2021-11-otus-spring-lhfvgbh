@@ -28,7 +28,7 @@ class QuestionServiceTest {
     @Test
     @DisplayName("Get the size of the question file")
     void readQuestionsSizeTest() throws Exception{
-        Quiz testQuiz = questionService.getQuizQuestions();
+        Quiz testQuiz = questionService.buildQuiz();
         Assertions.assertEquals(INPUT_FILE_SIZE, testQuiz.getNumberOfQuestions());
         log.info("Success");
     }

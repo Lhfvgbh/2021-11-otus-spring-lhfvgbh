@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.springboothomework3.exceptions.QuizException;
 import ru.otus.springboothomework3.models.Question;
@@ -22,12 +21,11 @@ public class QuestionServiceImpl implements QuestionService {
     private final String filename;
 
     @Autowired
-    public QuestionServiceImpl(LanguageService languageService,
-                               @Value("${filename.template}") String filenameTemplate) {
-        this.filename = filenameTemplate.replace("*", languageService.getFileLanguage());
+    public QuestionServiceImpl(FileNameProvider fileNameProvider) {
+        this.filename = fileNameProvider.getFilename();
     }
 
-    public Quiz getQuizQuestions() throws QuizException {
+    public Quiz buildQuiz() throws QuizException {
         List<Question> questions = new ArrayList<>();
         try {
             try (CSVReader reader = new CSVReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename)))) {
@@ -35,6 +33,8 @@ public class QuestionServiceImpl implements QuestionService {
                 while ((line = reader.readNext()) != null) {
                     if (line.length == 2) {
                         questions.add(new Question(line[0], line[1]));
+                    } else {
+                        throw new QuizException(String.format("Incorrect question format: %s", line));
                     }
                 }
             }

@@ -4,5 +4,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface QuizService {
-    void startQuiz() throws Exception;
+    void startQuiz();
 }

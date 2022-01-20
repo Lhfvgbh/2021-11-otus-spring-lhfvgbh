@@ -6,21 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
-import java.util.Locale;
-
 @SpringBootTest
 @Slf4j
 @TestPropertySource(properties = {"default.locale="})
-class LanguageServiceDefaultLocaleTest {
+public class MessageServiceDefaultLocaleTest {
+
     @Autowired
-    private LanguageService languageService;
+    private MessageService messageService;
 
     @Test
-    @DisplayName("Get correct file according to default locale")
-    void getQuestionFileEnTest() {
-
-        String filename = "questions.csv";
-        Assertions.assertEquals(filename, languageService.getQuestionFile());
-        log.info("Success for the locale " + Locale.getDefault());
+    @DisplayName("Get the message by default language")
+    void getMessageTest() {
+        String actualResult = messageService.getMessage("message.welcome");
+        String expectedResult = "Welcome to the Quiz!";
+        Assertions.assertEquals(expectedResult, actualResult);
+        log.info("Success");
     }
 }

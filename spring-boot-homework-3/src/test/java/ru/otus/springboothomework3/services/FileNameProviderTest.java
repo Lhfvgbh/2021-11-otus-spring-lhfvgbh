@@ -1,9 +1,7 @@
 package ru.otus.springboothomework3.services;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -13,15 +11,15 @@ import java.util.Locale;
 @SpringBootTest
 @Slf4j
 @TestPropertySource(properties = {"default.locale=ru-RU"})
-class LanguageServiceRULocaleTest {
+class FileNameProviderTest {
     @Autowired
-    private LanguageService languageService;
+    private FilenameProviderImpl filenameProvider;
 
     @Test
-    @DisplayName("Get correct file according to RU locale")
-    void getQuestionFileRuTest() {
-        String filename = "questions_ru.csv";
-        Assertions.assertEquals(filename, languageService.getQuestionFile());
+    @DisplayName("Get correct filename according to RU locale")
+    void getQuestionFileEnTest() {
+        String phrase = "questions_ru.csv";
+        Assertions.assertEquals(phrase, filenameProvider.getFilename());
         log.info("Success for the locale " + Locale.getDefault());
     }
 }
