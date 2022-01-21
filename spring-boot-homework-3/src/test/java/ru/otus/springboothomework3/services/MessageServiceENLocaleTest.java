@@ -10,8 +10,9 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @Slf4j
-@TestPropertySource(properties = {"default.locale=ru"})
-class MessageServiceRULocaleTest {
+@TestPropertySource(properties = {"default.language=en"})
+public class MessageServiceENLocaleTest {
+
     @Autowired
     private MessageServiceImpl messageService;
 
@@ -19,7 +20,7 @@ class MessageServiceRULocaleTest {
     @DisplayName("Get the message by default language")
     void getMessageTest() {
         String actualResult = messageService.getMessage("message.welcome");
-        String expectedResult = "Добро пожаловать в тестирование!";
+        String expectedResult = "Welcome to the Quiz!";
         Assertions.assertEquals(expectedResult, actualResult);
         log.info("Success");
     }

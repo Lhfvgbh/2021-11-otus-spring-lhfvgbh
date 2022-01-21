@@ -1,13 +1,14 @@
 throughput:
   5
 default:
-  locale:
-
+  language:
+    ru
 filename:
   template:
-    questions*.csv
+    questions_*.csv
 spring:
   messages:
     basename:
       i18n/messages
-
+    fallback-to-system-locale:
+      false

@@ -39,7 +39,7 @@ public class QuestionServiceImpl implements QuestionService {
                 }
             }
         } catch (IOException | CsvValidationException ex) {
-            throw new QuizException(String.format("File %s cannot be read!", filename));
+            throw new QuizException(String.format("File %s cannot be read!", filename), ex);
         }
         return new Quiz(questions, questions.size());
     }

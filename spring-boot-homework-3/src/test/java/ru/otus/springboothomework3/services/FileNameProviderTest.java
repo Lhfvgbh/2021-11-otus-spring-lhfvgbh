@@ -10,7 +10,7 @@ import java.util.Locale;
 
 @SpringBootTest
 @Slf4j
-@TestPropertySource(properties = {"default.locale=ru-RU"})
+@TestPropertySource(properties = {"default.locale=ru"})
 class FileNameProviderTest {
     @Autowired
     private FilenameProviderImpl filenameProvider;

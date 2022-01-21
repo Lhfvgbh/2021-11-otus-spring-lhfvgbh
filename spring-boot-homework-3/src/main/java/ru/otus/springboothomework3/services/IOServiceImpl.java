@@ -2,8 +2,10 @@ package ru.otus.springboothomework3.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.Scanner;
 
@@ -16,9 +18,10 @@ public class IOServiceImpl implements IOService {
     private final Scanner scanner;
 
     @Autowired
-    public IOServiceImpl() {
-        this.outputStream = System.out;
-        this.scanner = new Scanner(System.in);
+    public IOServiceImpl(@Value("#{ T(java.lang.System).in}") InputStream inputStream,
+                         @Value("#{ T(java.lang.System).out}") PrintStream printStream) {
+        this.outputStream = printStream;
+        this.scanner = new Scanner(inputStream);
     }
 
     @Override

@@ -8,11 +8,11 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
 @Slf4j
-@TestPropertySource(properties = {"default.locale="})
+@TestPropertySource(properties = {"default.language="})
 public class MessageServiceDefaultLocaleTest {
 
     @Autowired
-    private MessageService messageService;
+    private MessageServiceImpl messageService;
 
     @Test
     @DisplayName("Get the message by default language")

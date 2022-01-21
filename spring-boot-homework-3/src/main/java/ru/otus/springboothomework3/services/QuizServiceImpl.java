@@ -15,49 +15,34 @@ public class QuizServiceImpl implements QuizService {
 
     private final QuestionService questionService;
     private final ResultService resultService;
-    private final QuizIOService ioService;
-    private final int throughput;
+    private final StudentService studentService;
+    private final MessageService messageService;
+    private final IOService ioService;
 
     @Autowired
     public QuizServiceImpl(QuestionService questionService,
                            ResultService resultService,
-                           QuizIOService ioService,
-                           @Value("${throughput}") int throughput) {
+                           StudentService studentService,
+                           IOService ioService,
+                           MessageService messageService) {
         this.questionService = questionService;
         this.resultService = resultService;
+        this.studentService = studentService;
+        this.messageService = messageService;
         this.ioService = ioService;
-        this.throughput = throughput;
     }
 
     public void startQuiz() {
         try {
-            Student student = getStudentProfile();
-            QuizResult result = calculateAnswers(student);
-            ioService.summarizeResult(result);
+            Quiz quiz = questionService.buildQuiz();
+            ioService.printLine(messageService.getMessage("message.welcome"));
+            Student student = studentService.readStudent();
+            ioService.printLine(messageService.getMessage("message.start"));
+            QuizResult result = resultService.calculateAnswers(quiz, student);
+            ioService.printLine(messageService.getMessage("message.result") + result.getStatus());
+            ioService.printLine(messageService.getMessage("message.score") + result.getScore() + "/" + result.getQuestionCounter());
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-    }
-
-    private Student getStudentProfile() {
-        String firstname = ioService.getStudentFirstName();
-        String lastname = ioService.getStudentLastName();
-
-        return new Student(firstname, lastname);
-    }
-
-    private QuizResult calculateAnswers(Student student) throws Exception {
-        Quiz quiz = questionService.buildQuiz();
-        QuizResult result = new QuizResult();
-
-        for (Question question : quiz.getQuestions()) {
-            String answer = ioService.getAnswer(question.getQuestion());
-            boolean isAnswerCorrect = resultService.checkAnswer(question, answer);
-            result.acceptAnswer(isAnswerCorrect);
-            ioService.checkAnswer(isAnswerCorrect);
-        }
-
-        result.calculateTotalResult(student, throughput);
-        return result;
     }
 }
