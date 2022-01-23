@@ -1,23 +1,7 @@
 package ru.otus.springboothomework3.services;
 
-import org.springframework.stereotype.Service;
+public interface IOMessageService {
+    void printLine(String line, Object... args);
 
-@Service
-public class IOMessageService {
-
-    private final MessageService messageService;
-    private final IOService ioService;
-
-    public IOMessageService(MessageService messageService, IOService ioService) {
-        this.messageService = messageService;
-        this.ioService = ioService;
-    }
-
-    void printLine(String line, Object... args) {
-        ioService.printLine(messageService.getMessage(line, args));
-    }
-
-    public String readLine() {
-        return ioService.readLine();
-    }
+    String readLine();
 }

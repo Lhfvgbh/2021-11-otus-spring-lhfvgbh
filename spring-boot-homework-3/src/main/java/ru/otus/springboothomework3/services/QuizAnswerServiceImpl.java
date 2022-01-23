@@ -24,7 +24,7 @@ public class QuizAnswerServiceImpl implements QuizAnswerService {
 
     @Override
     public QuizResult calculateAnswers(Quiz quiz, Student student) {
-        QuizResult result = new QuizResult();
+        QuizResult result = new QuizResult(student, throughput);
 
         for (Question question : quiz.getQuestions()) {
             ioService.printLine(question.getQuestion());
@@ -33,8 +33,6 @@ public class QuizAnswerServiceImpl implements QuizAnswerService {
             result.acceptAnswer(isAnswerCorrect);
             ioService.printLine(String.valueOf(isAnswerCorrect));
         }
-
-        result.provideResultData(student, throughput);
         return result;
     }
 }

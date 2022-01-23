@@ -1,6 +1,5 @@
 package ru.otus.springboothomework3.services;
 
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +9,10 @@ import ru.otus.springboothomework3.models.Student;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final IOMessageService ioMessageService;
+    private final IOMessageServiceImpl ioMessageService;
 
     @Autowired
-    public StudentServiceImpl(IOMessageService ioMessageService) {
+    public StudentServiceImpl(IOMessageServiceImpl ioMessageService) {
         this.ioMessageService = ioMessageService;
     }
 

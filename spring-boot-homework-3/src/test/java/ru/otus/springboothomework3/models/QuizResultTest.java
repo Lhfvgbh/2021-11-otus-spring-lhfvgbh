@@ -14,13 +14,12 @@ public class QuizResultTest {
     @DisplayName("Check correct result status")
     void calculateTotalResultTest() {
         Student student = new Student("Ivan", "Ivanov");
-        QuizResult result = new QuizResult();
+        QuizResult result = new QuizResult(student, THROUGHPUT);
 
         result.acceptAnswer(INCORRECT_ANSWER);
         for (int i = 0; i < 6; i++) {
             result.acceptAnswer(CORRECT_ANSWER);
         }
-        result.provideResultData(student, THROUGHPUT);
 
         Assertions.assertEquals(6, result.getScore());
         Assertions.assertEquals(7, result.getQuestionCounter());

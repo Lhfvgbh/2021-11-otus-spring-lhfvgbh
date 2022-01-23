@@ -14,13 +14,13 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionService questionService;
     private final QuizAnswerService quizAnswerService;
     private final StudentService studentService;
-    private final IOMessageService ioMessageService;
+    private final IOMessageServiceImpl ioMessageService;
 
     @Autowired
     public QuizServiceImpl(QuestionService questionService,
                            QuizAnswerService quizAnswerService,
                            StudentService studentService,
-                           IOMessageService ioMessageService) {
+                           IOMessageServiceImpl ioMessageService) {
         this.questionService = questionService;
         this.quizAnswerService = quizAnswerService;
         this.studentService = studentService;

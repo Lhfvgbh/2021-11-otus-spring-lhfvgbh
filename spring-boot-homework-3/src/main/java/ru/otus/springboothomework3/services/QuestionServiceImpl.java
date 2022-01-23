@@ -18,17 +18,19 @@ import java.util.List;
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
-    private final String filename;
+    private final FilenameProvider fileNameProvider;
 
     @Autowired
     public QuestionServiceImpl(FilenameProvider fileNameProvider) {
-        this.filename = fileNameProvider.getFilename();
+        this.fileNameProvider = fileNameProvider;
     }
 
     public Quiz buildQuiz() throws QuizException {
         List<Question> questions = new ArrayList<>();
+        String filename = fileNameProvider.getFilename();
         try {
-            try (CSVReader reader = new CSVReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename)))) {
+            try (CSVReader reader = new CSVReader(
+                    new InputStreamReader(getClass().getClassLoader().getResourceAsStream(filename)))) {
                 String[] line;
                 while ((line = reader.readNext()) != null) {
                     if (line.length == 2) {

@@ -1,14 +1,12 @@
 package ru.otus.springboothomework3.services;
 
 import org.junit.jupiter.api.*;
-import org.mockito.Mock;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.springboothomework3.models.Question;
-import ru.otus.springboothomework3.models.Quiz;
-import ru.otus.springboothomework3.models.QuizResult;
-import ru.otus.springboothomework3.models.Student;
+import ru.otus.springboothomework3.models.*;
 
 import java.util.Arrays;
 
@@ -21,25 +19,16 @@ class QuizAnswerServiceTest {
     private QuizAnswerService quizAnswerService;
     private Quiz quiz;
     private Student student;
-    private Question questionCorrect;
-    private Question questionIncorrect;
 
     private static final String ANSWER_CORRECT = "y";
-    @MockBean
-    private IOService myTestBean;
 
-    @Mock
-    QuizResult expectedResult;
+    @MockBean
+    private IOService ioService;
 
     @BeforeEach
-    public void setupMock() {
-        when(myTestBean.readLine()).thenReturn(ANSWER_CORRECT);
-        questionCorrect = new Question("Is it test?", "Y");
-        questionIncorrect = new Question("Is it test?", "N");
+    public void setup() {
+        when(ioService.readLine()).thenReturn(ANSWER_CORRECT);
         student = new Student("Ivan", "Ivanov");
-        setUpQuiz(questionCorrect);
-
-        expectedResult = mock(QuizResult.class);
     }
 
     void setUpQuiz(Question question) {
@@ -53,28 +42,15 @@ class QuizAnswerServiceTest {
         ), 1);
     }
 
-    @Test
-    @DisplayName("Check answer calculation for pass")
-    void calculateAnswersPassTest() {
-        when(expectedResult.getStatus()).thenReturn(QuizResult.Status.PASS);
-        when(expectedResult.getScore()).thenReturn(6);
-
-        expectedResult.provideResultData(student, 5);
-        QuizResult actualResult = quizAnswerService.calculateAnswers(quiz, student);
-        Assertions.assertEquals(expectedResult.getScore(), actualResult.getScore());
-        Assertions.assertEquals(expectedResult.getStatus(), actualResult.getStatus());
-    }
-
-    @Test
+    @ParameterizedTest
     @DisplayName("Check answer calculation for fail")
-    void calculateAnswersFailTest() {
-        setUpQuiz(questionIncorrect);
-
-        when(expectedResult.getStatus()).thenReturn(QuizResult.Status.FAIL);
-        when(expectedResult.getScore()).thenReturn(0);
+    @CsvSource({"Y,6,PASS", "N,0,FAIL"})
+    void calculateAnswersFailTest(String answer, int score, String s) {
+        Question question = new Question("Is it test?", answer);
+        setUpQuiz(question);
 
         QuizResult actualResult = quizAnswerService.calculateAnswers(quiz, student);
-        Assertions.assertEquals(expectedResult.getScore(), actualResult.getScore());
-        Assertions.assertEquals(expectedResult.getStatus(), actualResult.getStatus());
+        Assertions.assertEquals(score, actualResult.getScore());
+        Assertions.assertEquals(QuizResult.Status.valueOf(s), actualResult.getStatus());
     }
 }

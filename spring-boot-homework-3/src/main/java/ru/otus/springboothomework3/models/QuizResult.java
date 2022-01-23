@@ -5,13 +5,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
 public class QuizResult {
     private int score;
     private Student student;
-    private Status status;
     private int questionCounter;
     private int minScore;
+
+    public QuizResult(Student student, int minScore) {
+        this.student = student;
+        this.minScore = minScore;
+    }
 
     public void acceptAnswer(boolean answer) {
         questionCounter++;
@@ -20,18 +23,12 @@ public class QuizResult {
         }
     }
 
-    public void provideResultData(Student student, int minScore) {
-        this.student = student;
-        this.minScore = minScore;
-    }
-
     public Status getStatus() {
         if (score > minScore) {
-            status = Status.PASS;
+            return Status.PASS;
         } else {
-            status = Status.FAIL;
+            return Status.FAIL;
         }
-        return status;
     }
 
     @AllArgsConstructor
