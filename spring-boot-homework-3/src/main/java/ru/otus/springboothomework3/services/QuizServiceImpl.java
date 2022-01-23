@@ -2,9 +2,7 @@ package ru.otus.springboothomework3.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import ru.otus.springboothomework3.models.Question;
 import ru.otus.springboothomework3.models.Quiz;
 import ru.otus.springboothomework3.models.QuizResult;
 import ru.otus.springboothomework3.models.Student;
@@ -14,34 +12,32 @@ import ru.otus.springboothomework3.models.Student;
 public class QuizServiceImpl implements QuizService {
 
     private final QuestionService questionService;
-    private final ResultService resultService;
+    private final QuizAnswerService quizAnswerService;
     private final StudentService studentService;
-    private final MessageService messageService;
-    private final IOService ioService;
+    private final IOMessageService ioMessageService;
 
     @Autowired
     public QuizServiceImpl(QuestionService questionService,
-                           ResultService resultService,
+                           QuizAnswerService quizAnswerService,
                            StudentService studentService,
-                           IOService ioService,
-                           MessageService messageService) {
+                           IOMessageService ioMessageService) {
         this.questionService = questionService;
-        this.resultService = resultService;
+        this.quizAnswerService = quizAnswerService;
         this.studentService = studentService;
-        this.messageService = messageService;
-        this.ioService = ioService;
+        this.ioMessageService = ioMessageService;
     }
 
     public void startQuiz() {
         try {
             Quiz quiz = questionService.buildQuiz();
-            ioService.printLine(messageService.getMessage("message.welcome"));
+            ioMessageService.printLine("message.welcome");
             Student student = studentService.readStudent();
-            ioService.printLine(messageService.getMessage("message.start"));
-            QuizResult result = resultService.calculateAnswers(quiz, student);
-            ioService.printLine(messageService.getMessage("message.result") + result.getStatus());
-            ioService.printLine(messageService.getMessage("message.score") + result.getScore() + "/" + result.getQuestionCounter());
+            ioMessageService.printLine("message.start");
+            QuizResult result = quizAnswerService.calculateAnswers(quiz, student);
+            ioMessageService.printLine("message.result", result.getStatus());
+            ioMessageService.printLine("message.score", result.getScore(), "/", result.getQuestionCounter());
         } catch (Exception e) {
+            ioMessageService.printLine(e.getMessage());
             log.error(e.getMessage());
         }
     }

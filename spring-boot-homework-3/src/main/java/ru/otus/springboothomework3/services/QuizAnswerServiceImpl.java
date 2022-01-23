@@ -6,14 +6,14 @@ import org.springframework.stereotype.Service;
 import ru.otus.springboothomework3.models.*;
 
 @Service
-public class ResultServiceImpl implements ResultService {
+public class QuizAnswerServiceImpl implements QuizAnswerService {
 
     private final IOService ioService;
     private final int throughput;
 
     @Autowired
-    public ResultServiceImpl(@Value("${throughput}") int throughput,
-                             IOService ioService) {
+    public QuizAnswerServiceImpl(@Value("${throughput}") int throughput,
+                                 IOService ioService) {
         this.ioService = ioService;
         this.throughput = throughput;
     }
@@ -34,7 +34,7 @@ public class ResultServiceImpl implements ResultService {
             ioService.printLine(String.valueOf(isAnswerCorrect));
         }
 
-        result.calculateTotalResult(student, throughput);
+        result.provideResultData(student, throughput);
         return result;
     }
 }

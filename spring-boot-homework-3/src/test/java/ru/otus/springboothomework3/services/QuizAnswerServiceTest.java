@@ -1,7 +1,7 @@
 package ru.otus.springboothomework3.services;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -12,14 +12,13 @@ import ru.otus.springboothomework3.models.Student;
 
 import java.util.Arrays;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
-@Slf4j
-class ResultServiceTest {
+class QuizAnswerServiceTest {
 
     @Autowired
-    private ResultService resultService;
+    private QuizAnswerService quizAnswerService;
     private Quiz quiz;
     private Student student;
     private Question questionCorrect;
@@ -29,6 +28,9 @@ class ResultServiceTest {
     @MockBean
     private IOService myTestBean;
 
+    @Mock
+    QuizResult expectedResult;
+
     @BeforeEach
     public void setupMock() {
         when(myTestBean.readLine()).thenReturn(ANSWER_CORRECT);
@@ -36,6 +38,8 @@ class ResultServiceTest {
         questionIncorrect = new Question("Is it test?", "N");
         student = new Student("Ivan", "Ivanov");
         setUpQuiz(questionCorrect);
+
+        expectedResult = mock(QuizResult.class);
     }
 
     void setUpQuiz(Question question) {
@@ -52,12 +56,11 @@ class ResultServiceTest {
     @Test
     @DisplayName("Check answer calculation for pass")
     void calculateAnswersPassTest() {
-        QuizResult expectedResult = new QuizResult();
-        for (Question ignored : quiz.getQuestions()) {
-            expectedResult.acceptAnswer(true);
-        }
-        expectedResult.calculateTotalResult(student, 5);
-        QuizResult actualResult = resultService.calculateAnswers(quiz, student);
+        when(expectedResult.getStatus()).thenReturn(QuizResult.Status.PASS);
+        when(expectedResult.getScore()).thenReturn(6);
+
+        expectedResult.provideResultData(student, 5);
+        QuizResult actualResult = quizAnswerService.calculateAnswers(quiz, student);
         Assertions.assertEquals(expectedResult.getScore(), actualResult.getScore());
         Assertions.assertEquals(expectedResult.getStatus(), actualResult.getStatus());
     }
@@ -66,12 +69,11 @@ class ResultServiceTest {
     @DisplayName("Check answer calculation for fail")
     void calculateAnswersFailTest() {
         setUpQuiz(questionIncorrect);
-        QuizResult expectedResult = new QuizResult();
-        for (Question ignored : quiz.getQuestions()) {
-            expectedResult.acceptAnswer(false);
-        }
-        expectedResult.calculateTotalResult(student, 5);
-        QuizResult actualResult = resultService.calculateAnswers(quiz, student);
+
+        when(expectedResult.getStatus()).thenReturn(QuizResult.Status.FAIL);
+        when(expectedResult.getScore()).thenReturn(0);
+
+        QuizResult actualResult = quizAnswerService.calculateAnswers(quiz, student);
         Assertions.assertEquals(expectedResult.getScore(), actualResult.getScore());
         Assertions.assertEquals(expectedResult.getStatus(), actualResult.getStatus());
     }

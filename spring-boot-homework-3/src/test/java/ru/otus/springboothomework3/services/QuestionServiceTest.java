@@ -30,6 +30,5 @@ class QuestionServiceTest {
     void readQuestionsSizeTest() throws Exception{
         Quiz testQuiz = questionService.buildQuiz();
         Assertions.assertEquals(INPUT_FILE_SIZE, testQuiz.getNumberOfQuestions());
-        log.info("Success");
     }
 }

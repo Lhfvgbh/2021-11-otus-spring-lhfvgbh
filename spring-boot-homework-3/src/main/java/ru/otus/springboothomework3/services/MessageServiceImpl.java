@@ -2,30 +2,36 @@ package ru.otus.springboothomework3.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-
 @Service
-@Slf4j
-public class MessageServiceImpl implements MessageService{
+public class MessageServiceImpl implements MessageService {
     private final MessageSource msg;
-    private final Locale locale;
+    private final LocaleProvider localeProvider;
 
     @Autowired
     private MessageServiceImpl(MessageSource msg,
-                               @Value("${default.language}") String language) {
-        this.locale = Locale.forLanguageTag(language);
+                               LocaleProvider localeProvider) {
         this.msg = msg;
-        log.info("Locale: " + Locale.getDefault());
+        this.localeProvider = localeProvider;
     }
 
     public String getMessage(String key, Object... args) {
-        return msg.getMessage(
-                key,
-                args,
-                locale);
+        if (args.length > 0) {
+            StringBuilder builder = new StringBuilder();
+            for (Object o : args) {
+                builder.append(o);
+            }
+            return msg.getMessage(
+                    key,
+                    args,
+                    localeProvider.getLocale()) + builder.toString();
+        } else {
+            return msg.getMessage(
+                    key,
+                    args,
+                    localeProvider.getLocale());
+        }
     }
 }

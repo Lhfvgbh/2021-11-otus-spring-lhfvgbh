@@ -21,7 +21,7 @@ public class QuestionServiceImpl implements QuestionService {
     private final String filename;
 
     @Autowired
-    public QuestionServiceImpl(FileNameProvider fileNameProvider) {
+    public QuestionServiceImpl(FilenameProvider fileNameProvider) {
         this.filename = fileNameProvider.getFilename();
     }
 

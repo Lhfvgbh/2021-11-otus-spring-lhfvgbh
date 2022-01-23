@@ -10,22 +10,20 @@ import ru.otus.springboothomework3.models.Student;
 @Service
 public class StudentServiceImpl implements StudentService {
 
-    private final MessageService messageService;
-    private final IOService ioService;
+    private final IOMessageService ioMessageService;
 
     @Autowired
-    public StudentServiceImpl(MessageService messageService, IOService ioService) {
-        this.messageService = messageService;
-        this.ioService = ioService;
+    public StudentServiceImpl(IOMessageService ioMessageService) {
+        this.ioMessageService = ioMessageService;
     }
 
     @Override
     public Student readStudent() {
-        ioService.printLine(messageService.getMessage("message.firstname"));
-        String firstname = ioService.readLine();
+        ioMessageService.printLine("message.firstname");
+        String firstname = ioMessageService.readLine();
 
-        ioService.printLine(messageService.getMessage("message.lastname"));
-        String lastname = ioService.readLine();
+        ioMessageService.printLine("message.lastname");
+        String lastname = ioMessageService.readLine();
 
         return new Student(firstname, lastname);
     }

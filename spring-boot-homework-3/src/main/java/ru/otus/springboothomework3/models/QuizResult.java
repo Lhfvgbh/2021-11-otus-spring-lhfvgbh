@@ -11,6 +11,7 @@ public class QuizResult {
     private Student student;
     private Status status;
     private int questionCounter;
+    private int minScore;
 
     public void acceptAnswer(boolean answer) {
         questionCounter++;
@@ -19,13 +20,18 @@ public class QuizResult {
         }
     }
 
-    public void calculateTotalResult(Student student, int minScore) {
+    public void provideResultData(Student student, int minScore) {
         this.student = student;
+        this.minScore = minScore;
+    }
+
+    public Status getStatus() {
         if (score > minScore) {
             status = Status.PASS;
         } else {
             status = Status.FAIL;
         }
+        return status;
     }
 
     @AllArgsConstructor

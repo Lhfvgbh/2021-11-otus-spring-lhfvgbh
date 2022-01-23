@@ -9,18 +9,19 @@ import ru.otus.springboothomework3.exceptions.QuizException;
 
 @Slf4j
 @Service
-public class FilenameProviderImpl implements FileNameProvider {
+public class FilenameProviderImpl implements FilenameProvider {
     @Getter
     private final String filename;
 
     @Autowired
     public FilenameProviderImpl(@Value("${filename.template}") String filenameTemplate,
-                                @Value("${default.language}") String language) throws QuizException {
+                                LocaleProvider localeProvider) throws QuizException {
+        String language = localeProvider.getLocale().getLanguage();
         if (language.isEmpty()) {
             language = "en";
         }
         if (language.length() > 2) {
-            throw new QuizException("Incorrect language! Please use 'ru' or 'en'.");
+            throw new QuizException("Incorrect language!");
         }
         this.filename = filenameTemplate.replace("*", language);
         log.info("File: " + filename);
