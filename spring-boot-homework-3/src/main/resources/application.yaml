@@ -1,0 +1,14 @@
+throughput:
+  5
+default:
+  language:
+    ru
+filename:
+  template:
+    questions_*.csv
+spring:
+  messages:
+    basename:
+      i18n/messages
+    fallback-to-system-locale:
+      false
