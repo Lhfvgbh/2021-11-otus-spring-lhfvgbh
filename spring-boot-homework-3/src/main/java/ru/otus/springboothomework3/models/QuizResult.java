@@ -2,14 +2,13 @@ package ru.otus.springboothomework3.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
 public class QuizResult {
     private int score;
-    private Student student;
     private int questionCounter;
-    private int minScore;
+    private final Student student;
+    private final int minScore;
 
     public QuizResult(Student student, int minScore) {
         this.student = student;
