@@ -8,6 +8,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.springboothomework3.services.providers.FilenameProvider;
+import ru.otus.springboothomework3.services.providers.LocaleProvider;
 
 import java.util.Locale;
 
