@@ -1,11 +1,11 @@
 package ru.otus.homework_4.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Data
 public class Author {
-    private final long id;
-    private final String name;
+    private long id;
+    private String name;
 }

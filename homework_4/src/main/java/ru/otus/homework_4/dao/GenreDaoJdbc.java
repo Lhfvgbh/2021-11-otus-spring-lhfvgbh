@@ -1,6 +1,9 @@
 package ru.otus.homework_4.dao;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcOperations;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.homework_4.domain.Genre;
 import ru.otus.homework_4.mapper.GenreMapper;
@@ -24,11 +27,12 @@ public class GenreDaoJdbc implements GenreDao {
     }
 
     @Override
-    public void insert(Genre genre) {
-        final Map<String, Object> params = new HashMap<>(1);
-        params.put("id", genre.getId());
-        params.put("name", genre.getName());
-        jdbc.update("insert into genres (id, name) values (:id, :name)", params);
+    public long insert(Genre genre) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("name", genre.getName());
+        KeyHolder kh = new GeneratedKeyHolder();
+        jdbc.update("insert into genres (`name`) values (:name)", params, kh);
+        return kh.getKey().longValue();
     }
 
     @Override

@@ -4,13 +4,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.shell.jline.InteractiveShellApplicationRunner;
 import org.springframework.shell.jline.ScriptShellApplicationRunner;
+import ru.otus.homework_4.dao.BookDao;
+import ru.otus.homework_4.domain.Author;
 import ru.otus.homework_4.domain.Book;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Тестирование BookService")
 @SpringBootTest(properties = {
@@ -23,13 +28,23 @@ public class BookServiceTest {
     @Autowired
     private BookService bookService;
 
-    private static final int EXPECTED_BOOKS_COUNT = 3;
+    @MockBean
+    private BookDao bookDao;
+
+    private static final int EXPECTED_BOOKS_COUNT = 2;
     private static final int EXISTING_BOOK_ID = 1;
     private static final String EXISTING_BOOK_TITLE = "Гарри Поттер и философский камень";
     private static final String EXISTING_BOOK_DESCRIPTION = "первый роман в серии книг про юного волшебника Гарри Поттера, написанный Дж. К. Роулинг.";
     private static final int EXISTING_BOOK_AUTHOR_ID = 2;
     private static final int EXISTING_BOOK_GENRE_ID = 1;
 
+    @BeforeEach
+    private void setupMock() {
+        Book book = new Book(EXISTING_BOOK_ID, EXISTING_BOOK_TITLE, EXISTING_BOOK_DESCRIPTION, EXISTING_BOOK_AUTHOR_ID, EXISTING_BOOK_GENRE_ID);
+        when(bookDao.getById(EXISTING_BOOK_ID)).thenReturn(book);
+        when(bookDao.getByTitle(EXISTING_BOOK_TITLE)).thenReturn(book);
+        when(bookDao.getAll()).thenReturn(Arrays.asList(book, book));
+    }
     @Test
     @DisplayName("Get book from the library by ID")
     void shouldReturnBookById() {

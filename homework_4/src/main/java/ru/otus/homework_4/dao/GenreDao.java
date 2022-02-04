@@ -7,7 +7,7 @@ import java.util.List;
 public interface GenreDao {
     int count();
 
-    void insert(Genre genre);
+    long insert(Genre genre);
 
     Genre getById(long id);
 

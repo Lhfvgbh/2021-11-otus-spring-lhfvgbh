@@ -1,14 +1,14 @@
 package ru.otus.homework_4.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Data
 public class Book {
-    private final long id;
-    private final String title;
-    private final String description;
-    private final long authorId;
-    private final long genreId;
+    private long id;
+    private String title;
+    private String description;
+    private long authorId;
+    private long genreId;
 }

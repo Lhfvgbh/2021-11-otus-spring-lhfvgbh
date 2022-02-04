@@ -35,12 +35,12 @@ public class ShellService {
     }
 
     @ShellMethod(key = "addBook", value = "Add new book to the library")
-    public void addBook(@ShellOption({"identifier", "id"}) long id,
+    public void addBook(//@ShellOption({"identifier", "id"}) long id,
                         @ShellOption({"title", "t"}) String title,
                         @ShellOption({"description", "d"}) String description,
                         @ShellOption({"authorId", "a"}) long authorId,
                         @ShellOption({"genreId", "g"}) long genreId) {
-        bookService.addNewBook(new Book(id, title, description, authorId, genreId));
+        bookService.addNewBook(new Book(1, title, description, authorId, genreId));
     }
 
     @ShellMethod(key = "getBookByName", value = "Get book information by book name")
