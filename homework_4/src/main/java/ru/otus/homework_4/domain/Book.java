@@ -9,6 +9,6 @@ public class Book {
     private long id;
     private String title;
     private String description;
-    private long authorId;
-    private long genreId;
+    private Author author;
+    private Genre genre;
 }

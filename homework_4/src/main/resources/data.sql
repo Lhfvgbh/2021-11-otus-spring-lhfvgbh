@@ -1,6 +1,6 @@
-insert into authors (`name`)
+insert into authors (`pen_name`)
 values ('Джоан Роулинг');
-insert into authors (`name`)
+insert into authors (`pen_name`)
 values ('Ханс Кристиан Андерсен');
 insert into genres (`name`)
 values ('Сказка');

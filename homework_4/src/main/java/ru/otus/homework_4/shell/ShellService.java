@@ -8,16 +8,19 @@ import ru.otus.homework_4.domain.Author;
 import ru.otus.homework_4.domain.Book;
 import ru.otus.homework_4.service.AuthorService;
 import ru.otus.homework_4.service.BookService;
+import ru.otus.homework_4.service.GenreService;
 
 @ShellComponent
 public class ShellService {
     private final BookService bookService;
     private final AuthorService authorService;
+    private final GenreService genreService;
 
     @Autowired
-    public ShellService(BookService bookService, AuthorService authorService) {
+    public ShellService(BookService bookService, AuthorService authorService, GenreService genreService) {
         this.bookService = bookService;
         this.authorService = authorService;
+        this.genreService = genreService;
     }
 
     @ShellMethod(key = "getAllBooks", value = "Print all the books")
@@ -35,12 +38,12 @@ public class ShellService {
     }
 
     @ShellMethod(key = "addBook", value = "Add new book to the library")
-    public void addBook(//@ShellOption({"identifier", "id"}) long id,
-                        @ShellOption({"title", "t"}) String title,
+    public void addBook(@ShellOption({"title", "t"}) String title,
                         @ShellOption({"description", "d"}) String description,
                         @ShellOption({"authorId", "a"}) long authorId,
                         @ShellOption({"genreId", "g"}) long genreId) {
-        bookService.addNewBook(new Book(1, title, description, authorId, genreId));
+        bookService.addNewBook(new Book(1, title, description, authorService.getAuthor(authorId),
+                genreService.getGenreById(genreId)));
     }
 
     @ShellMethod(key = "getBookByName", value = "Get book information by book name")
@@ -59,6 +62,7 @@ public class ShellService {
                            @ShellOption({"description", "d"}) String description,
                            @ShellOption({"authorId", "a"}) long authorId,
                            @ShellOption({"genreId", "g"}) long genreId) {
-        bookService.editBook(new Book(bookId, title, description, authorId, genreId));
+        bookService.editBook(new Book(bookId, title, description, authorService.getAuthor(authorId),
+                genreService.getGenreById(genreId)));
     }
 }

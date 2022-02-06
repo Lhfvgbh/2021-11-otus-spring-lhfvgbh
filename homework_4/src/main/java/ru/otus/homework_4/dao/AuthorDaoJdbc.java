@@ -28,9 +28,9 @@ public class AuthorDaoJdbc implements AuthorDao {
     @Override
     public long insert(Author author) {
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("name", author.getName());
+        params.addValue("pen_name", author.getName());
         KeyHolder kh = new GeneratedKeyHolder();
-        jdbc.update("insert into authors (`name`) values (:name)", params, kh);
+        jdbc.update("insert into authors (`pen_name`) values (:pen_name)", params, kh);
         return kh.getKey().longValue();
     }
 
@@ -38,21 +38,21 @@ public class AuthorDaoJdbc implements AuthorDao {
     public Author getById(long id) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", id);
-        return jdbc.queryForObject("select id, name from authors where id = :id",
+        return jdbc.queryForObject("select id, pen_name from authors where id = :id",
                 params, new AuthorMapper());
     }
 
     @Override
     public Author getByName(String name) {
         final Map<String, Object> params = new HashMap<>(1);
-        params.put("name", name);
-        return jdbc.queryForObject("select id, name from authors where name = :name",
+        params.put("pen_name", name);
+        return jdbc.queryForObject("select id, pen_name from authors where pen_name = :pen_name",
                 params, new AuthorMapper());
     }
 
     @Override
     public List<Author> getAll() {
-        return jdbc.query("select id, name from authors", new AuthorMapper());
+        return jdbc.query("select id, pen_name from authors", new AuthorMapper());
     }
 
     @Override
@@ -66,7 +66,7 @@ public class AuthorDaoJdbc implements AuthorDao {
     public void update(Author author) {
         final Map<String, Object> params = new HashMap<>(1);
         params.put("id", author.getId());
-        params.put("name", author.getName());
-        jdbc.update("update authors set name = :name where id = :id", params);
+        params.put("pen_name", author.getName());
+        jdbc.update("update authors set pen_name = :pen_name where id = :id", params);
     }
 }
