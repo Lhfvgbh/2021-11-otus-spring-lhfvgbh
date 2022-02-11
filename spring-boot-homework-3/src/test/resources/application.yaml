@@ -1,18 +1,19 @@
+filename:
+  template:
+    questions_*.csv
+
 throughput:
   5
 default:
   language:
     ru
-filename:
-  template:
-    questions_*.csv
+
 spring:
+  main:
+    allow-circular-references:
+      true
   messages:
     basename:
       i18n/messages
     fallback-to-system-locale:
       false
-
-  main:
-    allow-circular-references:
-      true

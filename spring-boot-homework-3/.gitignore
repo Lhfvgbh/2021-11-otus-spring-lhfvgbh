@@ -11,3 +11,6 @@ target/
 ### Maven
 .mvn
 mvnw*
+
+## Spring Shell
+spring-shell.log

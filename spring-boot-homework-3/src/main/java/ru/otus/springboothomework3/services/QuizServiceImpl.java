@@ -5,35 +5,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.otus.springboothomework3.models.Quiz;
 import ru.otus.springboothomework3.models.QuizResult;
-import ru.otus.springboothomework3.models.Student;
+import ru.otus.springboothomework3.services.handlers.StudentHandler;
 
 @Service
 @Slf4j
 public class QuizServiceImpl implements QuizService {
-
     private final QuestionService questionService;
     private final QuizAnswerService quizAnswerService;
-    private final StudentService studentService;
+    private final StudentHandler studentHandler;
     private final IOMessageServiceImpl ioMessageService;
 
     @Autowired
     public QuizServiceImpl(QuestionService questionService,
                            QuizAnswerService quizAnswerService,
-                           StudentService studentService,
+                           StudentHandler studentHandler,
                            IOMessageServiceImpl ioMessageService) {
         this.questionService = questionService;
         this.quizAnswerService = quizAnswerService;
-        this.studentService = studentService;
+        this.studentHandler = studentHandler;
         this.ioMessageService = ioMessageService;
     }
 
     public void startQuiz() {
         try {
-            Quiz quiz = questionService.buildQuiz();
-            ioMessageService.printLine("message.welcome");
-            Student student = studentService.readStudent();
             ioMessageService.printLine("message.start");
-            QuizResult result = quizAnswerService.calculateAnswers(quiz, student);
+            Quiz quiz = questionService.buildQuiz();
+            QuizResult result = quizAnswerService.calculateAnswers(quiz, studentHandler.getStudent());
             ioMessageService.printLine("message.result", result.getStatus());
             ioMessageService.printLine("message.score", result.getScore(), "/", result.getQuestionCounter());
         } catch (Exception e) {

@@ -1,4 +1,4 @@
-package ru.otus.springboothomework3.services;
+package ru.otus.springboothomework3.services.providers;
 
 public interface FilenameProvider {
     String getFilename();
