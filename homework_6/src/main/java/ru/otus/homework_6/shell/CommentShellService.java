@@ -7,28 +7,31 @@ import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework_6.models.Comment;
 import ru.otus.homework_6.service.BookService;
 import ru.otus.homework_6.service.CommentService;
+import ru.otus.homework_6.service.OutputService;
+
+import java.util.Collections;
 
 @ShellComponent
 public class CommentShellService {
     private final BookService bookService;
     private final CommentService commentService;
+    private final OutputService outputService;
 
     @Autowired
-    public CommentShellService(BookService bookService, CommentService commentService) {
+    public CommentShellService(BookService bookService, CommentService commentService, OutputService outputService) {
         this.bookService = bookService;
         this.commentService = commentService;
+        this.outputService = outputService;
     }
 
     @ShellMethod(key = "countAllBookComments", value = "Print total number of comments")
     public void countAllBookComments() {
-        System.out.println(commentService.getTotalNumberOfComments());
+        outputService.printOne(commentService.getTotalNumberOfComments());
     }
 
     @ShellMethod(key = "getAllCommentsForBook", value = "Print all available book genres")
     public void getAllCommentsForBook(@ShellOption({"bookId", "b"}) long book_id) {
-        for (Comment comment : commentService.getAllCommentsForBook(book_id)) {
-            System.out.println(comment);
-        }
+        outputService.printList(Collections.singletonList(commentService.getAllCommentsForBook(book_id)));
     }
 
     @ShellMethod(key = "addCommentForBook", value = "Add new comment for the book")

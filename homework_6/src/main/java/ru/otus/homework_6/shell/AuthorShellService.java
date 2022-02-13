@@ -6,29 +6,28 @@ import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.homework_6.models.Author;
 import ru.otus.homework_6.service.AuthorService;
+import ru.otus.homework_6.service.OutputService;
+
+import java.util.Collections;
 
 @ShellComponent
 public class AuthorShellService {
     private final AuthorService authorService;
+    private final OutputService outputService;
 
     @Autowired
-    public AuthorShellService(AuthorService authorService) {
+    public AuthorShellService(AuthorService authorService, OutputService outputService) {
         this.authorService = authorService;
+        this.outputService = outputService;
     }
 
     @ShellMethod(key = "getAllAuthors", value = "Print all the authors")
     public void getAllAuthors() {
-        for (Author author : authorService.getAllAuthors()) {
-            System.out.println(author);
-        }
+        outputService.printList(Collections.singletonList(authorService.getAllAuthors()));
     }
 
     @ShellMethod(key = "addAuthor", value = "Add new author")
     public void addAuthor(@ShellOption({"name", "n"}) String name) {
-        Author a = new Author();
-        a.setPenName(name);
-        a.setId(-1L);
-        authorService.addNewAuthor(a);
-        //authorService.addNewAuthor(new Author(-1, name));
+        authorService.addNewAuthor(new Author(-1L, name));
     }
 }

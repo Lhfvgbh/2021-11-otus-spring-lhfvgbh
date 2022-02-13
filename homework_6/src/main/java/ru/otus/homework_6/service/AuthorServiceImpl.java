@@ -24,10 +24,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     public Author addNewAuthor(String name) {
         log.info("Adding new author with name: " + name);
-        return authorRepo.save(new Author(0L, name));
-        //Author author = new Author();
-        //author.setPenName(name);
-        //return authorRepo.save(author);
+        return authorRepo.save(new Author(-1L, name));
     }
 
     @Override

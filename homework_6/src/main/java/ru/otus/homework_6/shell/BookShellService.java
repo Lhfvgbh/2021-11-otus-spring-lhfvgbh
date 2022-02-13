@@ -8,26 +8,29 @@ import ru.otus.homework_6.models.Book;
 import ru.otus.homework_6.service.AuthorService;
 import ru.otus.homework_6.service.BookService;
 import ru.otus.homework_6.service.GenreService;
+import ru.otus.homework_6.service.OutputService;
+
+import java.util.Collections;
 
 @ShellComponent
 public class BookShellService {
     private final BookService bookService;
     private final AuthorService authorService;
     private final GenreService genreService;
+    private final OutputService outputService;
 
     @Autowired
     public BookShellService(BookService bookService, AuthorService authorService,
-                            GenreService genreService) {
+                            GenreService genreService, OutputService outputService) {
         this.bookService = bookService;
         this.authorService = authorService;
         this.genreService = genreService;
+        this.outputService = outputService;
     }
 
     @ShellMethod(key = "getAllBooks", value = "Print all the books")
     public void getAllBooks() {
-        for (Book book : bookService.getAllBooks()) {
-            System.out.println(book);
-        }
+        outputService.printList(Collections.singletonList(bookService.getAllBooks()));
     }
 
     @ShellMethod(key = "addBook", value = "Add new book to the library")
@@ -41,12 +44,12 @@ public class BookShellService {
 
     @ShellMethod(key = "getBookByName", value = "Get book information by book name")
     public void getBookByName(@ShellOption({"title", "t"}) String title) {
-        System.out.println(bookService.getBookByTitle(title));
+        outputService.printOne(bookService.getBookByTitle(title));
     }
 
     @ShellMethod(key = "getBookById", value = "Get book information by book id")
-    public void getBookByName(@ShellOption({"id", "i"}) long id) {
-        System.out.println(bookService.getBook(id));
+    public void getBookById(@ShellOption({"id", "i"}) long id) {
+        outputService.printOne(bookService.getBook(id));
     }
 
     @ShellMethod(key = "deleteBook", value = "Delete book from the library")
