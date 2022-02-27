@@ -14,7 +14,6 @@ import ru.otus.homework_9.service.AuthorService;
 import ru.otus.homework_9.service.BookService;
 import ru.otus.homework_9.service.GenreService;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -46,7 +45,7 @@ public class BookController {
 
     @GetMapping("/findBook")
     public String findBook(@RequestParam(value="title", required=false) String title, Model model) {
-        List<Book> books = (List<Book>) bookService.getBookByTitle(title);
+        List<Book> books = bookService.getBookByTitle(title);
         model.addAttribute("books", books);
         return "findBook";
     }
@@ -64,7 +63,7 @@ public class BookController {
 
     @Validated
     @PostMapping("/edit")
-    public String editBook(@Valid @ModelAttribute("book") Book book) {
+    public String editBook(@ModelAttribute("book") Book book) {
         bookService.editBook(book);
         return "redirect:";
     }
@@ -80,7 +79,7 @@ public class BookController {
 
     @Validated
     @PostMapping("/add")
-    public String addBook(@Valid @ModelAttribute("book") BookDTO book, BindingResult bindingResult) {
+    public String addBook(@ModelAttribute("book") BookDTO book, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "addBook";
         }
@@ -88,7 +87,7 @@ public class BookController {
         return "redirect:";
     }
 
-    @GetMapping("/remove")
+    @PostMapping("/remove")
     public String removeBook(@RequestParam("id") int id) {
         bookService.deleteBook(id);
         return "redirect:";
