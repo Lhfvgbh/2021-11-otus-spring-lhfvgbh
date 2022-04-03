@@ -67,7 +67,7 @@ public class BookControllerTest {
         when(authorService.getAuthor(EXISTING_AUTHOR.getId())).thenReturn(EXISTING_AUTHOR);
         when(genreService.getGenreById(EXISTING_GENRE.getId())).thenReturn(EXISTING_GENRE);
 
-        mockMvc.perform(get("/books/", EXISTING_BOOK_ID))
+        mockMvc.perform(get("/api/v1/books/", EXISTING_BOOK_ID))
                 .andExpect(status().isOk())
                 .andReturn();
     }
@@ -85,7 +85,7 @@ public class BookControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(bookDto);
 
-        mockMvc.perform(post("/books")
+        mockMvc.perform(post("/api/v1/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .characterEncoding("utf-8"))
@@ -108,7 +108,7 @@ public class BookControllerTest {
         ObjectMapper objectMapper = new ObjectMapper();
         String json = objectMapper.writeValueAsString(bookDto);
 
-        mockMvc.perform(put("/books")
+        mockMvc.perform(put("/api/v1/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json)
                 .characterEncoding("utf-8"))

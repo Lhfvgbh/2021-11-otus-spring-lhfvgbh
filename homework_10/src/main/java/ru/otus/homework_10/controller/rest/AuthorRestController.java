@@ -15,12 +15,8 @@ import java.util.List;
 public class AuthorRestController {
     private final AuthorService authorService;
 
-    @GetMapping("/authors")
+    @GetMapping("/api/v1/authors")
     public List<Author> getAllAuthors() {
-        List<Author> authors = new ArrayList<>();
-        for (Author author : authorService.getAllAuthors()) {
-            authors.add(author);
-        }
-        return authors;
+        return authorService.getAllAuthors();
     }
 }

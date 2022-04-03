@@ -15,7 +15,7 @@ import java.util.List;
 public class GenreRestController {
     private final GenreService genreService;
 
-    @GetMapping("/genres")
+    @GetMapping("/api/v1/genres")
     public List<GenreDTO> getAllAuthors() {
         List<GenreDTO> genres = new ArrayList<>();
         for (Genre genre : genreService.getAllGenres()) {

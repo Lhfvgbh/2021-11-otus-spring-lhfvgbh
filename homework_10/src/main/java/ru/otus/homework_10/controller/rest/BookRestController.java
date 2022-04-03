@@ -20,23 +20,23 @@ public class BookRestController {
     private final AuthorService authorService;
     private final GenreService genreService;
 
-    @GetMapping("/books")
+    @GetMapping("/api/v1/books")
     public List<Book> getAllBook() {
-        return new ArrayList<>(bookService.getAllBooks());
+        return bookService.getAllBooks();
     }
 
-    @GetMapping("/books/find/{title}")
+    @GetMapping("/api/v1/books/find/{title}")
     public List<Book> findBook(@PathVariable String title) {
-        return new ArrayList<>(bookService.getBookByTitle(title));
+        return bookService.getBookByTitle(title);
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/api/v1/books/{id}")
     public Book findBook(@PathVariable Long id) {
         return bookService.getBookById(id);
     }
 
     @Validated
-    @PutMapping("/books")
+    @PutMapping("/api/v1/books")
     public Book updateBook(@RequestBody BookDTO bookDTO) {
         return bookService.editBook(bookDTO.toDomainObject(
                 authorService.getAuthor(bookDTO.getAuthorId()),
@@ -44,14 +44,14 @@ public class BookRestController {
     }
 
     @Validated
-    @PostMapping("/books")
+    @PostMapping("/api/v1/books")
     public Book saveBook(@RequestBody BookDTO bookDTO) {
         return bookService.addNewBook(bookDTO.toDomainObject(
                 authorService.getAuthor(bookDTO.getAuthorId()),
                 genreService.getGenreById(bookDTO.getGenreId())));
     }
 
-    @DeleteMapping("/books/{id}")
+    @DeleteMapping("/api/v1/books/{id}")
     public void removeBook(@PathVariable Long id) {
         bookService.deleteBook(id);
     }

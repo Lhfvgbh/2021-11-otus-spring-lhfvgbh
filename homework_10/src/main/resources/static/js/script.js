@@ -1,5 +1,5 @@
 function loadBooks() {
-    $.get('/books').done(function (books) {
+    $.get('/api/v1/books').done(function (books) {
         $('#books > tbody').empty();
         books.forEach(function (book) {
             $('#books > tbody').append(`
@@ -19,7 +19,7 @@ function loadBooks() {
 }
 
 function findBooksByTitle(title) {
-    $.get('/books/find/' + title).done(function (books) {
+    $.get('/api/v1/books/find/' + title).done(function (books) {
         $('#booksWithId > tbody').empty();
         books.forEach(function (book) {
             $('#booksWithId > tbody').append(`
@@ -41,7 +41,7 @@ function findBooksByTitle(title) {
 
 
 function loadAuthors() {
-    $.get('/authors').done(function (authors) {
+    $.get('/api/v1/authors').done(function (authors) {
         $('#bookAuthorId').empty();
         authors.forEach(function (author) {
             $('#bookAuthorId').append(`
@@ -52,7 +52,7 @@ function loadAuthors() {
 }
 
 function loadGenres() {
-    $.get('/genres').done(function (genres) {
+    $.get('/api/v1/genres').done(function (genres) {
         $('#bookGenreId').empty();
         genres.forEach(function (genre) {
             $('#bookGenreId').append(`
@@ -96,7 +96,7 @@ function showEditor(id) {
 
 function editBook(id) {
     showEditor(id);
-    $.get('/books/' + id).done(function (book) {
+    $.get('/api/v1/books/' + id).done(function (book) {
         $('#bookId').val(id);
         $('#bookTitle').val(book.title);
         $('#bookDescription').val(book.description);
@@ -110,7 +110,7 @@ function saveBook() {
     let id = $('#bookId').val();
     let method = (id === '') ? 'POST' : 'PUT';
     $.ajax({
-        url: '/books',
+        url: '/api/v1/books',
         type: method,
         data: JSON.stringify({
             id: id,
@@ -133,7 +133,7 @@ function deleteBook(id) {
     }
 
     $.ajax({
-        url: '/books/' + id,
+        url: '/api/v1/books/' + id,
         type: 'DELETE',
         success: function () {
             loadBooks();
