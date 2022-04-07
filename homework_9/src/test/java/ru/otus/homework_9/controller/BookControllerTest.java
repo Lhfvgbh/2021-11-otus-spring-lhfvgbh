@@ -13,7 +13,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("Тестирование BookRestController")
+@DisplayName("Тестирование BookController")
 @WebMvcTest(BookController.class)
 public class BookControllerTest {
 
