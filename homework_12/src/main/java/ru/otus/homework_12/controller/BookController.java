@@ -51,7 +51,7 @@ public class BookController {
     }
 
     @GetMapping("/edit")
-    public String editBookPage(@RequestParam("id") int id, Model model) {
+    public String editBookPage(@RequestParam("id") long id, Model model) {
         Book book = bookService.getBook(id);
         List<Author> authors = authorService.getAllAuthors();
         List<Genre> genres = genreService.getAllGenres();
@@ -88,7 +88,7 @@ public class BookController {
     }
 
     @PostMapping("/remove")
-    public String removeBook(@RequestParam("id") int id) {
+    public String removeBook(@RequestParam("id") long id) {
         bookService.deleteBook(id);
         return "redirect:";
     }
