@@ -26,6 +26,7 @@ VALUES ('Хорошо!', 2);
 INSERT INTO comments (`text`, `book_id`)
 VALUES ('Хорошо!', 3);
 
+--password
 INSERT INTO users(`username`, `password`)
 VALUES ('admin', '$2a$12$LmMd853HNoLn2M2VS3rFEu7n59ZR7QQSqlyi5iTWxjRS3YspG.OrK'),
        ('user', '$2a$12$LmMd853HNoLn2M2VS3rFEu7n59ZR7QQSqlyi5iTWxjRS3YspG.OrK');

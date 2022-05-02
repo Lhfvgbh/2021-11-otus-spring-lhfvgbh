@@ -30,15 +30,11 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-                //.csrf().disable()
                 .authorizeRequests()
                 .and()
                 .authorizeRequests()
-                //.antMatchers(HttpMethod.POST,"/books/add", "/books/remove**", "/books/edit**", "/books/remove{id}")
                 .antMatchers("/books/add**", "/books/remove**", "/books/edit**", "/books/remove{id}")
-                .hasAnyRole("ADMIN")
-                //.hasRole("ADMIN")
-                //.and().authorizeRequests().antMatchers("/**").denyAll()
+                .hasAnyRole("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().defaultSuccessUrl("/")
                 .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID").permitAll()
