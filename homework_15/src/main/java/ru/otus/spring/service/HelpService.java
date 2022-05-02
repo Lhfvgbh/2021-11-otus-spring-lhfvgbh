@@ -1,53 +1,31 @@
 package ru.otus.spring.service;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomUtils;
-import org.springframework.context.annotation.Bean;
-import org.springframework.integration.channel.PublishSubscribeChannel;
-import org.springframework.integration.channel.QueueChannel;
-import org.springframework.integration.dsl.IntegrationFlow;
-import org.springframework.integration.dsl.IntegrationFlows;
-import org.springframework.integration.dsl.MessageChannels;
-import org.springframework.integration.dsl.Pollers;
-import org.springframework.integration.scheduling.PollerMetadata;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Cloth;
+import ru.otus.spring.domain.Clothes;
+import ru.otus.spring.integration.Atelier;
 
+import java.util.Collection;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class HelpService {
-    private static final String[] ITEMS = {"coat", "jacket", "dress", "shirt", "pants", "hat", "skirt"};
-    private static final String[] TYPES = {"cotton", "leather", "lace", "linen", "silk", "wool", "satin"};
 
-    @Bean
-    public QueueChannel clothChannel() {
-        return MessageChannels.queue(10).get();
-    }
+    private final Atelier atelier;
 
-    @Bean
-    public PublishSubscribeChannel clothesChannel() {
-        return MessageChannels.publishSubscribe().get();
-    }
+    private final String[] ITEMS = {"coat", "jacket", "dress", "shirt", "pants", "hat", "skirt"};
+    private final String[] TYPES = {"cotton", "leather", "lace", "linen", "silk", "wool", "satin"};
 
-    @Bean(name = PollerMetadata.DEFAULT_POLLER)
-    public PollerMetadata poller() {
-        return Pollers.fixedRate(100).maxMessagesPerPoll(2).get();
-    }
-
-    @Bean
-    public IntegrationFlow atelierFlow() {
-        return IntegrationFlows.from("clothChannel")
-                .split()
-                .handle("atelierService", "sew")
-                .aggregate()
-                .channel("clothesChannel")
-                .get();
-    }
-
-    public static Cloth generateCloth() {
+    public Cloth generateCloth() {
         Cloth cloth = new Cloth(ITEMS[RandomUtils.nextInt(0, ITEMS.length)],
                 TYPES[RandomUtils.nextInt(0, TYPES.length)],
-                Math.round(3 + 7 * new Random().nextDouble()));
+                Math.round(1 + 4 * new Random().nextDouble()));
         System.out.println("New item to sew: " +
                 cloth.getItemName() +
                 " of " +
@@ -55,5 +33,14 @@ public class HelpService {
                 " meters " +
                 cloth.getFabricType());
         return cloth;
+    }
+
+    @Async
+    @Scheduled(fixedRate = 5000)
+    public void startAtelier() {
+        Collection<Clothes> clothes = atelier.process(generateCloth());
+        System.out.println("Ready item: " + clothes.stream()
+                .map(Clothes::getItemName)
+                .collect(Collectors.joining(",")));
     }
 }
