@@ -3,6 +3,7 @@ package ru.otus.homework_13.controller;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("Тестирование BookController")
 @WebMvcTest(BookController.class)
+@AutoConfigureMockMvc(addFilters = false)
 public class BookControllerTest {
 
     private static final long EXISTING_BOOK_ID = 1L;
@@ -51,7 +53,6 @@ public class BookControllerTest {
     @MockBean
     private GenreService genreService;
 
-    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN", "ROLE_USER"})
     @DisplayName("load main page")
     @Test
     void indexPage() throws Exception {
@@ -59,7 +60,6 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     @DisplayName("load book by id")
     @Test
     void editPage() throws Exception {
@@ -72,7 +72,6 @@ public class BookControllerTest {
                 .andReturn();
     }
 
-    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     @DisplayName("add new book")
     @Test
     void add() throws Exception {
@@ -89,7 +88,6 @@ public class BookControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @WithMockUser(username = "admin", authorities = {"ROLE_ADMIN"})
     @DisplayName("edit book")
     @Test
     void edit() throws Exception {

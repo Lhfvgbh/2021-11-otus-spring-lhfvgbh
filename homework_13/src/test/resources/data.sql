@@ -28,8 +28,8 @@ VALUES ('admin', '$2a$12$LmMd853HNoLn2M2VS3rFEu7n59ZR7QQSqlyi5iTWxjRS3YspG.OrK')
        ('user', '$2a$12$LmMd853HNoLn2M2VS3rFEu7n59ZR7QQSqlyi5iTWxjRS3YspG.OrK');
 
 INSERT INTO roles(`role_name`)
-VALUES ('ROLE_ADMIN'),
-       ('ROLE_USER');
+VALUES ('ADMIN'),
+       ('USER');
 
 INSERT INTO user_roles(user_id, role_id)
 VALUES (1, 1),

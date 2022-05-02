@@ -34,7 +34,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/books/add**", "/books/remove**", "/books/edit**", "/books/remove{id}")
-                .hasAnyRole("ROLE_ADMIN")
+                .hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().defaultSuccessUrl("/")
                 .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID").permitAll()
