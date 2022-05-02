@@ -17,8 +17,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.otus.spring.service.AtelierService;
 
 @Configuration
-@EnableIntegration
-@IntegrationComponentScan
 @EnableAsync
 @EnableScheduling
 @RequiredArgsConstructor
