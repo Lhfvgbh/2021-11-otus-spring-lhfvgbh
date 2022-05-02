@@ -30,10 +30,12 @@ public class SecurityConf extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .antMatchers("/actuator/**", "/customCounterMetric/**")
+                .permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers("/books/add**", "/books/remove**", "/books/edit**", "/books/remove{id}")
-                .hasAnyRole("ROLE_ADMIN")
+                .hasAnyRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().formLogin().defaultSuccessUrl("/")
                 .and().logout().logoutUrl("/logout").deleteCookies("JSESSIONID").permitAll()

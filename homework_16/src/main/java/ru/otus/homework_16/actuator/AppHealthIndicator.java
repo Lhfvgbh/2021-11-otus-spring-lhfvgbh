@@ -16,12 +16,6 @@ public class AppHealthIndicator implements HealthIndicator {
     @Value("${spring.datasource.url}")
     private final String url;
 
-    /*@Value("${spring.datasource.username}")
-    private final String username;
-
-    @Value("${spring.datasource.password}")
-    private final String password;*/
-
     @Override
     public Health health() {
         try {
@@ -31,7 +25,7 @@ public class AppHealthIndicator implements HealthIndicator {
             return Health.up().status(Status.UP).withDetail("message", "DB is available").build();
         } catch (SQLException e) {
             e.printStackTrace();
-            return Health.down().status(Status.DOWN).withDetail("message", "Database: " + e.getLocalizedMessage()).build();
+            return Health.down().status(Status.DOWN).withDetail("message", "DB is DOWN").build();
         }
     }
 }
