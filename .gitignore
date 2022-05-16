@@ -11,6 +11,7 @@ homework_4/.mvn/wrapper/maven-wrapper.jar
 homework_4/.mvn/wrapper/maven-wrapper.jar
 *.jar
 *.iml
+*.log
 
 *.idea/
 *target/
