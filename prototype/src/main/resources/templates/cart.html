@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Cart</title>
+</head>
+<body>
+
+<div th:insert="~{stuff/menu :: #nav-menu}"></div>
+
+<table border="1" align="center">
+    <tr>
+        <td>Name</td>
+        <td>Amount</td>
+        <td>Price</td>
+        <td>Sum</td>
+        <td></td>
+    </tr>
+    <tr th:each="detailDTO : ${cart.cartDetails}">
+        <td th:text="${detailDTO.productName}"></td>
+        <td th:text="${detailDTO.productAmount}"></td>
+        <td th:text="${detailDTO.productPrice}"></td>
+        <td th:text="${detailDTO.sum}"></td>
+        <td>
+            <form th:action="@{/cart/{id}/remove(id=${detailDTO.productId})}" method="post">
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+
+    <div>
+        <h2>Total sum: <b th:text="${cart.totalSum}"></b></h2>
+    </div>
+
+    <div>
+        <form th:action="@{/cart/confirmOrder}" method="post">
+            <button type="submit">Confirm Order</button>
+        </form>
+    </div>
+
+</table>
+
+</body>
+</html>

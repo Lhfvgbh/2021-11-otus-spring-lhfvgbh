@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Product list</title>
+</head>
+<body>
+
+<div th:insert="~{stuff/menu :: #nav-menu}"></div>
+
+<table border="1" align="center">
+    <tr>
+        <td>Name</td>
+        <td>Price</td>
+        <td>In stock</td>
+        <td>Actions</td>
+    </tr>
+    <tr th:each="product : ${products}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.isAvailable} ? 'In stock' : 'Out of Stock'"></td>
+        <td th:if="${product.isAvailable}" sec:authorize="hasAuthority('CLIENT')">
+            <a th:href="@{/products/{id}/toCart(id=${product.id})}">
+                <button type="button">Add to Cart</button>
+            </a>
+        </td>
+        <td th:if="${product.isAvailable}" sec:authorize="hasAuthority('ADMIN')">
+            <form th:action="@{/products/{id}/deleteProduct(id=${product.id})}" method="post">
+                <button type="submit">Disable</button>
+            </form>
+        </td>
+        <td th:if="${!product.isAvailable}" sec:authorize="hasAuthority('ADMIN')">
+            <form th:action="@{/products/{id}/addProduct(id=${product.id})}" method="post">
+                <button type="submit">Enable</button>
+            </form>
+        </td>
+    </tr>
+
+</table>
+
+<div sec:authorize="hasAuthority('ADMIN')" align="center">
+    <a th:href="@{/products/addNewProduct}">
+        <button type="button">Add new product</button>
+    </a>
+</div>
+
+</body>
+</html>

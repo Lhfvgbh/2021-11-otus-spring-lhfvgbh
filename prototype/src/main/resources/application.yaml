@@ -1,0 +1,20 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate
+      #validate - create-drop - update
+    show-sql: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/prototype
+    username: admin
+    password: 00000000
+  flyway:
+    baseline-on-migrate: true
+    #enabled: true
+    url: jdbc:postgresql://localhost:5432/prototype
+    user: admin
+    password: 00000000
+
+logging:
+  level:
+    root: INFO
