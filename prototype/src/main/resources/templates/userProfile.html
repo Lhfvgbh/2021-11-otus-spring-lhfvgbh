@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit User Profile</title>
+</head>
+<body>
+
+<div th:insert="~{stuff/menu :: #nav-menu}"></div>
+
+<form th:action="@{/users/editProfile}" th:object="${user}" method="post">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><input type="text" th:field="*{name}"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="email" th:field="*{email}"></td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" th:field="*{password}"></td>
+        </tr>
+        <tr>
+            <td>Confirm password</td>
+            <td><input type="password" th:field="*{confirmedPassword}"></td>
+        </tr>
+        <tr>
+            <td>Account is active</td>
+            <td><input type="checkbox" th:field="*{isActive}" th:checked="${user.isActive}"></td>
+        </tr>
+    </table>
+
+    <button type="submit">Save changes</button>
+    <a th:href="@{/}"><button type="button">Cancel</button></a>
+</form>
+</body>
+</html>

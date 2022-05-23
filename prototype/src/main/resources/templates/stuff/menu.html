@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns:sec="http://thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<table id="nav-menu" width="100%">
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td>Menu</td>
+                    <td><a th:href="@{/}">Home</a></td>
+                    <td><a th:href="@{/products}">Products</a></td>
+                    <td sec:authorize="hasAuthority('ADMIN')"><a th:href="@{/users}">Users</a></td>
+                    <td sec:authorize="hasAuthority('CLIENT')"><a th:href="@{/cart}">Cart</a></td>
+                    <!--<td><a th:href="@{/sign_in}">Login</a></td>-->
+                </tr>
+            </table>
+        </td>
+
+        <td align="right">
+            <div sec:authorize="isAuthenticated()">
+                <div>
+                    Welcome, <a th:href="@{/users/editProfile}">
+                    <span sec:authentication="principal.username">User</span>
+                </a>!
+                </div>
+                <div>
+                    <a th:href="@{/logout}">
+                        <button type="button">Logout</button>
+                    </a>
+                </div>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <div>
+                    Please,
+                </div>
+                <div>
+                    <a th:href="@{/sign_in}">
+                        <button type="button">Sign In</button>
+                    </a>
+                </div>
+            </div>
+        </td>
+
+    </tr>
+</table>
+</body>
+</html>
