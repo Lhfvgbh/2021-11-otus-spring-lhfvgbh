@@ -32,8 +32,6 @@ public class Product {
     @Column(name = "is_available")
     private Boolean isAvailable;
 
-    //@ManyToMany(mappedBy="product")
-    //private List<CartProducts> cartProducts;
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "products_categories",
             joinColumns = @JoinColumn(name = "product_id"),

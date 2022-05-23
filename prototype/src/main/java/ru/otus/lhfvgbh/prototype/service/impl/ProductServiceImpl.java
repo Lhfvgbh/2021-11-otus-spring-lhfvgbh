@@ -6,20 +6,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.lhfvgbh.prototype.domain.Cart;
 import ru.otus.lhfvgbh.prototype.domain.Product;
-import ru.otus.lhfvgbh.prototype.domain.Role;
 import ru.otus.lhfvgbh.prototype.domain.User;
-import ru.otus.lhfvgbh.prototype.dto.CartDTO;
-import ru.otus.lhfvgbh.prototype.dto.CartProductDetailDTO;
 import ru.otus.lhfvgbh.prototype.dto.ProductDTO;
-import ru.otus.lhfvgbh.prototype.dto.UserDTO;
-import ru.otus.lhfvgbh.prototype.mapper.ProductMapper;
 import ru.otus.lhfvgbh.prototype.repository.ProductRepository;
 import ru.otus.lhfvgbh.prototype.service.CartService;
 import ru.otus.lhfvgbh.prototype.service.ProductService;
 import ru.otus.lhfvgbh.prototype.service.UserService;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +31,6 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll().stream()
                 .map(ProductDTO::toDTO)
                 .collect(Collectors.toList());
-        //return mapper.fromProductList(productRepository.findAll());
     }
 
     @Transactional

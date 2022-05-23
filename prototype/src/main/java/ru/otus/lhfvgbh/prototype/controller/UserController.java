@@ -1,18 +1,19 @@
 package ru.otus.lhfvgbh.prototype.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.lhfvgbh.prototype.domain.User;
 import ru.otus.lhfvgbh.prototype.dto.UserDTO;
 import ru.otus.lhfvgbh.prototype.exceptions.InvalidUserException;
 import ru.otus.lhfvgbh.prototype.service.UserService;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/users")
@@ -63,12 +64,12 @@ public class UserController {
     }
 
     @PostMapping("/editProfile")
-    public String signUp(UserDTO userDTO, Model model, Principal principal) {
+    public String editProfile(UserDTO userDTO, Model model, Principal principal) {
         if (principal == null) {
             throw new InvalidUserException("Cannot save, please check your input!");
         }
-        if (userDTO.getPassword() == null && !userDTO.getPassword().isEmpty()
-                && userDTO.getPassword().equals(userDTO.getConfirmedPassword())) {
+        if (userDTO.getPassword() == null || userDTO.getPassword().isEmpty()
+                || !userDTO.getPassword().equals(userDTO.getConfirmedPassword())) {
             model.addAttribute("user", userDTO);
             return "userProfile";
         }
@@ -78,14 +79,14 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping({"/{id}/ban"})
+    @PostMapping("/{id}/ban")
     public String ban(@PathVariable Long id) {
         userService.deactivate(id);
         return "redirect:/";
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @PostMapping({"/{id}/unban"})
+    @PostMapping("/{id}/unban")
     public String unban(@PathVariable Long id) {
         userService.activate(id);
         return "redirect:/";

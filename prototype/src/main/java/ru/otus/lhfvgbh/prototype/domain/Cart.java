@@ -27,8 +27,6 @@ public class Cart {
             joinColumns = @JoinColumn(name = "cart_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> products;
-    //@ManyToMany(mappedBy="cart")
-    //private List<Product> products;
 
     public void addProduct(Product product) {
         this.products.add(product);

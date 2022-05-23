@@ -50,7 +50,6 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{id}/deleteProduct")
-    //@DeleteMapping("/deleteProduct")
     public String disableProduct(@PathVariable Long id) {
         productService.disable(id);
         return "redirect:/products";
@@ -58,7 +57,6 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{id}/addProduct")
-    //@DeleteMapping("/deleteProduct")
     public String enableProduct(@PathVariable Long id) {
         productService.enable(id);
         return "redirect:/products";

@@ -75,13 +75,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByName(name);
     }
 
-    @Override
     @Transactional
+    @Override
     public void updateProfile(UserDTO userDTO) {
         User user = userRepository.findByName(userDTO.getName());
 
         if (user == null) {
-            throw new InvalidUserException("Cannot save sign up, please check your input!");
+            throw new InvalidUserException("Cannot save, please check your input!");
         }
 
         if (userDTO.getPassword() != null && !userDTO.getPassword().isEmpty()
